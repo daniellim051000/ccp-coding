@@ -5,23 +5,29 @@
  */
 package doctor.patient;
 
+import java.util.concurrent.locks.Lock;
+
 /**
  *
  * @author vazeer
  */
 public class Patients extends Thread {
+    
     Doctor sv;
     int id;
-    public Patients(int id,Doctor s)
+    Lock z;
+    
+    public Patients(int id,Doctor s,Lock z)
     {
+        this.z = z;
         this.id = id;
         sv = s;
     }
     
     public void run()
     {
-            
-    sv.visit(this);
-            
+        z.lock();
+        sv.visit(this);
+        z.unlock();
     }
 }
